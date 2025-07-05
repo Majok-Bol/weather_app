@@ -1,35 +1,73 @@
 const button=document.getElementById("get-weather-btn");
 const selectCity=document.getElementById("select-city");
-//function to get weather
-function getWeather(city){
+const weatherContainer=document.getElementById("weather-container");
+let weatherData=[];
+
+async function getWeather(city){
+
     //return json data from the weather API
-    fetch(`https://weather-proxy.freecodecamp.rocks/api/city/${city}`)
-    .then((response)=>response.json())
-    .then((data)=>console.log(data))
-    .catch((error)=>console.error(error));
-}
-getWeather(selectCity.value);
-// //function to show weather data
-// function showWeather(getWeather){
-//     let data=getWeather;
-//     console.log(data);
-//     //display data in the page
-//     const card=document.createElement("div");
-//     card.innerHTML=`
-//     <img src="" id="weather-icon"/>
-//     <p id="main-temperature">Main temperatur:</p>
-//     <p id="feels-like">How temperature feels: </p>
-//         <p id="humidity"> Humidity: </p>
-//     <p id="wind">Wind speed: </p>
-//         <p id="wind-gust">Wind gust: </p>
-//     <p id="weather-main">Main weather type: </p>
-//         <p id="location">Current location: </p>
+    const response = await fetch(`https://weather-proxy.freecodecamp.rocks/api/city/${city}`);
+    if (!response.ok) {
+        alert("Something went wrong, please try again later.");
+        throw new Error("Network response was not ok");
+    }
+    return await response.json();
    
-    
-    
-    
-//     `
+}
+
+function showWeather(city){
+weatherContainer.innerHTML=`
+<p>City : ${city.name!==undefined?`${city.name}`:`Name: N/A`}</p>
+    <img 
+    src="${city.weather[0].icon?city.weather[0].icon:``}" 
+    id="weather-icon"
+    alt='city-image'
+    />
+        <p id="weather-main">${city.weather[0].main!==undefined?`Main weather type: ${city.weather[0].main}`:`Main weather type: N/A`} </p>
+    <p>Description: ${city.weather[0].description!==undefined?`${city.weather[0].description}`:`Description: N/A`}</p> 
+     <p id="main-temperature">
+     ${city.main.temp!==undefined?`Main temperature: ${city.main.temp} °C`:`Main temperature: N/A`}</p>
+    <p id="feels-like">
+    Feels like: ${city.main.feels_like!==undefined?`${city.main.feels_like} °C`:` How temperature feels: N/A`}</p>
+    <p>Maximum temperatures: ${city.main.temp_max!==undefined?`${city.main.temp_max} °C`:`N/A`} </p>
+    <p>Minimum temperatures: ${city.main.temp_min!==undefined?`${city.main.temp_min} °C`:`N/A`} </p>
+    <p>Pressure: ${city.main.pressure!==undefined?`${city.main.pressure} hPa`:`N/A`} </p>
+    <p id="humidity">${city.main.humidity!==undefined?`Humidity: ${city.main.humidity} %`:`Humidity: N/A`}</p>
+    <p>Visibility: ${city.visibility!==undefined?`${city.visibility} m`:`N/A`}</p>
+    <p id="wind">${city.wind.speed!==undefined?`Wind speed: ${city.wind.speed} m/s`:`Wind speed: N/A`}</p>
+    <p id="wind-gust">
+    ${city.wind.gust!==undefined?`Wind gust: ${city.wind.gust} m/s`:`Wind gust: N/A`} </p>
+    <p id="location">
+         <span>
+         Current location: 
+         <br>
+          ${city.coord.lat!==undefined?`Latitudes: ${city.coord.lat}°`:`Latitudes: N/A`}</span>
+         <br>
+          <span>Longitudes: ${city.coord.lon!==undefined?`\n${city.coord.lon}°`:`Longitudes: N/A`}</span> </p>
+    `
+}
+
+   button.addEventListener("click",()=>{
+    let city=selectCity.value;
+    if(!city){
+          alert("Please select a city.");
+        return;
+    }
+    getWeather(city)
+    .then((data)=>{
+
+        showWeather(data);
+       
+        
+    })
+    .catch((error)=>{
+        console.error("Error fetching weather data: ",error);
+        weatherContainer.innerHTML=`<p>Failed to load weather data: </p>`
+    })
+   
+
+ 
+});
 
 
-// }
-// showWeather(getWeather("Tokyo"));
+

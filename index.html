@@ -8,16 +8,21 @@
   </head>
   <body>
     <h1>Weather App</h1>
-    <button id="get-weather-btn">Get weather data</button>
-    <select id="select-city">
-      <option value="" ></option>
-      <option value="new-york">New York</option>
-      <option value="los-angeles" >Los Angeles</option>
-      <option value="chicago">Chicago</option>
-      <option value="paris">Paris</option>
-      <option value="tokyo" >Tokyo</option>
-      <option value="london" selected>London</option>
-    </select>
+    <div class="div">
+      <p class="heading">Weather for:</p>
+      <select id="select-city">
+        <option value=""></option>
+        <option value="new-york">New York</option>
+        <option value="los-angeles">Los Angeles</option>
+        <option value="chicago">Chicago</option>
+        <option value="paris">Paris</option>
+        <option value="tokyo">Tokyo</option>
+        <option value="london" selected>London</option>
+      </select>
+      <button id="get-weather-btn">Get weather data</button>
+    </div>
+
+    <div id="weather-container"></div>
     <script src="./script.js"></script>
   </body>
 </html>

@@ -7,7 +7,6 @@ async function getWeather(city){
     //return json data from the weather API
     const response = await fetch(`https://weather-proxy.freecodecamp.rocks/api/city/${city}`);
     if (!response.ok) {
-        alert("Something went wrong, please try again later.");
         throw new Error("Network response was not ok");
     }
     return await response.json();

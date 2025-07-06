@@ -1,7 +1,6 @@
 const button=document.getElementById("get-weather-btn");
 const selectCity=document.getElementById("select-city");
 const weatherContainer=document.getElementById("weather-container");
-let weatherData=[];
 
 async function getWeather(city){
 
@@ -17,13 +16,15 @@ async function getWeather(city){
 
 function showWeather(city){
 weatherContainer.innerHTML=`
+
 <p>City : ${city.name!==undefined?`${city.name}`:`Name: N/A`}</p>
     <img 
     src="${city.weather[0].icon?city.weather[0].icon:``}" 
     id="weather-icon"
     alt='city-image'
     />
-        <p id="weather-main">${city.weather[0].main!==undefined?`Main weather type: ${city.weather[0].main}`:`Main weather type: N/A`} </p>
+    <div class="weather-data">
+    <p id="weather-main">${city.weather[0].main!==undefined?`Main weather type: ${city.weather[0].main}`:`Main weather type: N/A`} </p>
     <p>Description: ${city.weather[0].description!==undefined?`${city.weather[0].description}`:`Description: N/A`}</p> 
      <p id="main-temperature">
      ${city.main.temp!==undefined?`Main temperature: ${city.main.temp} °C`:`Main temperature: N/A`}</p>
@@ -44,6 +45,7 @@ weatherContainer.innerHTML=`
           ${city.coord.lat!==undefined?`Latitudes: ${city.coord.lat}°`:`Latitudes: N/A`}</span>
          <br>
           <span>Longitudes: ${city.coord.lon!==undefined?`\n${city.coord.lon}°`:`Longitudes: N/A`}</span> </p>
+</div>
     `
 }
 
@@ -61,7 +63,6 @@ weatherContainer.innerHTML=`
         
     })
     .catch((error)=>{
-        console.error("Error fetching weather data: ",error);
         weatherContainer.innerHTML=`<p>Failed to load weather data: </p>`
     })
    

@@ -5,7 +5,7 @@ const weatherContainer=document.getElementById("weather-container");
 async function getWeather(city){
 
     //return json data from the weather API
-    const response = await fetch(`https://weather-proxy.freecodecamp.rocks/api/city/${city}`);
+    const response = await fetch(`https://weather-proxy.freecodecamp.rocks/api/city/${encodeURIComponent(city)}`);
     if (!response.ok) {
         throw new Error("Network response was not ok");
     }
